@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RANIF HOTEL - Swipe Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #f9f9f9;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .food-page {
+            flex: 0 0 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .food-page img {
+            max-width: 80%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        .food-title {
+            font-size: 2em;
+            margin: 20px 0 10px;
+            color: #e91e63;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .food-description {
+            font-size: 1.2em;
+            max-width: 80%;
+            margin: 10px auto;
+            color: #ddd;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.4);
+        }
+        button:hover {
+            background-color: #d81b60;
+            box-shadow: 0 6px 12px rgba(233, 30, 99, 0.6);
+        }
+        .swipe-hint {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Page 1 -->
+    <div class="food-page">
+        <img src="https://media.gettyimages.com/id/1367873387/photo/food-african-kenyan-dishes-high-angle-view-of-food.jpg" alt="Chapati">
+        <h2 class="food-title">Chapati</h2>
+        <p class="food-description">A soft and delicious flatbread, perfect with stews or vegetables.</p>
+        <button onclick="orderFood('Chapati')">Order Chapati</button>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="food-page">
+        <img src="https://media.gettyimages.com/id/1318923399/photo/close-up-of-meal-served-in-plate-on-table-nairobi.jpg" alt="Chapati Ugali">
+        <h2 class="food-title">Chapati Ugali</h2>
+        <p class="food-description">A unique twist combining the softness of chapati and the firmness of ugali.</p>
+        <button onclick="orderFood('Chapati Ugali')">Order Chapati Ugali</button>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="food-page">
+        <img src="https://media.gettyimages.com/id/1396280213/photo/high-angle-view-of-food-in-plate-on-table-nairobi.jpg" alt="Ugali + Matumbo">
+        <h2 class="food-title">Ugali + Matumbo</h2>
+        <p class="food-description">Classic Kenyan staple served with flavorful tripe stew.</p>
+        <button onclick="orderFood('Ugali + Matumbo')">Order Ugali + Matumbo</button>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="food-page">
+        <img src="https://media.gettyimages.com/id/1318923399/photo/close-up-of-meal-served-in-plate-on-table-nairobi.jpg" alt="Nyama Choma">
+        <h2 class="food-title">Nyama Choma</h2>
+        <p class="food-description">Succulent roasted meat, a true Kenyan favorite, served with kachumbari.</p>
+        <button onclick="orderFood('Nyama Choma')">Order Nyama Choma</button>
+    </div>
+</div>
+
+<div class="swipe-hint">Swipe left or right to navigate through the menu</div>
+
+<script>
+    const container = document.querySelector('.container');
+    let currentIndex = 0;
+
+    function showPage(index) {
+        container.style.transform = `translateX(-${index * 100}vw)`;
+    }
+
+    // Swipe gesture handling
+    let startX = 0;
+    container.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    container.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        if (startX > endX + 50 && currentIndex < container.children.length - 1) {
+            currentIndex++;
+        } else if (startX < endX - 50 && currentIndex > 0) {
+            currentIndex--;
+        }
+        showPage(currentIndex);
+    });
+
+    // Order button functionality
+    function orderFood(food) {
+        const phoneNumber = "0719760391"; // Updated phone number
+        const message = `Hello, I would like to order ${food} from RANIF HOTEL.`;
+        const url = `https://wa.me/254${phoneNumber.slice(1)}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
